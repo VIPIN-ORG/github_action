@@ -1,0 +1,19 @@
+Workflow: 
+  - Workflow are defined at repository level
+  - Define which trigger will start the Workflow
+  - Are composed of one or more jobs
+
+
+jobs
+  - Are defined on Workflow level
+  - Define in which execution environment they are run
+  - Are composed of one or more steps
+
+steps
+  - Are defined at the job level
+  - Define the actual script or Github actions to be executed
+  - Run sequencially by default
+
+
+
+  
