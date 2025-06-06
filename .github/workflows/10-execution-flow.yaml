@@ -19,7 +19,7 @@ jobs:
         steps: 
             - name: 'Running unit tests'
               run: |
-                echo "Running tests...
+                echo "Running tests..."
             - name: Failing tests
               if: ${{ inputs.pass-unit-tests == false }}
               run: |
