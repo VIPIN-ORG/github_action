@@ -7,6 +7,11 @@ jobs:
   echo1:
     runs-on: ubuntu-latest
     steps:
+      - name: Print PR title
+        run: |
+          cat << EOF  
+          echo "PR bane: ${{ github.event.pull_request.labels.title }}"
+          EOF
       - name: Failing step
         run: |
           exit 1
