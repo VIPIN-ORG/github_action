@@ -26,3 +26,7 @@ jobs:
         if: cancelled()
         run: |
           echo "I will print if the workflow is cancelled."
+      - name: Sleep for 20 seconds
+        run: |
+          sleep 20
+          
