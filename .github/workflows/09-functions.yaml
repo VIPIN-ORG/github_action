@@ -12,6 +12,9 @@ jobs:
           cat << EOF  
           echo "PR bane: ${{ github.event.pull_request.labels.title }}"
           EOF
+      - name: Failing step
+        run: |
+          exit 0
       - name: I will be skipped
         if: success()
         run: |
