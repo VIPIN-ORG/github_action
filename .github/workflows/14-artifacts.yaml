@@ -47,4 +47,6 @@ jobs:
           path: build
       - name: Show folder structure
         run: ls -R
-        
+      - name: Show manifest content
+        run: cat build/asset-manifest.json
+
