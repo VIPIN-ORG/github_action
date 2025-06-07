@@ -12,21 +12,41 @@ on:
 jobs:
     build:
         runs-on: ubuntu-latest
-        outputs:
-            build-status: ${{ steps.build.outputs.build-status }}
         steps:
             - name: Print GITHUB_OUTPUT path
               run: |
                 echo "GITHUB_OUTPUT : $GITHUB_OUTPUT"
             - name: Build
-              id: build
+              id: stepId
               run: |
                     echo "Building..."
-                    echo "build-status=Success" >> $GITHUB_OUTPUT
+                    echo "output1=value1" >> $GITHUB_OUTPUT
+                    echo "output2=value2" >> $GITHUB_OUTPUT
+                    cat $GITHUB_OUTPUT
+                    echo "mistake=true" > "$GITHUB_OUTPUT"
+                    cat $GITHUB_OUTPUT
+            - name: Step with mistake
+              id: stepId1
+              run: |
+                echo "output2=value3" >> "$GITHUB_OUTPUT"
+                cat "$GITHUB_OUTPUT"
+        outputs:
+            output1: ${{ steps.stepId.outputs.output1 }}
+            output2: ${{ steps.stepId.outputs.output2 }}
+            stepid1_output2: ${{ steps.stepId1.outputs.output2 }}
+            
     deploy:
         runs-on: ubuntu-latest
         needs: build
-        if: ${{ needs.build.outputs.build-status == 'Success' }}
         steps:
-            - name: Deploy
-              run: echo "Deploying..."          
+            - name: Deploy if success
+              if: ${{ needs.build.outputs.output1 == 'success' }}
+              run: echo "Deploying... ${{needs.build.outputs.output1}}"
+            - name: Deploy if failure
+              if: ${{ needs.build.outputs.output1 == 'failure' }}
+              run: echo "Deploying... ${{needs.build.outputs.output1}}"
+            - name: Print outputs
+              run: |
+                echo "build job- stepid - output1: ${{needs.build.outputs.output1}}"
+                echo "build job- stepid - output2: ${{needs.build.outputs.output2}}"
+                echo "build job- stepid1 - output2: ${{needs.build.outputs.stepid1_output2}}"
